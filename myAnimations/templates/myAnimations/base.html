@@ -1,0 +1,167 @@
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
+
+    <title>ArTandHobbY</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/carousel/">
+
+    <!-- Bootstrap core CSS -->
+
+    <link rel="stylesheet" href="{% static 'myAnimation/bootstrap/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'myAnimation/Datatable/dataTables.min.css' %}" />
+
+
+    <link rel="stylesheet" href="{% static 'myAnimation/splide.min.css' %}"> {% block style%} {% endblock %}
+
+    <!-- Custom styles for this template -->
+
+</head>
+
+<body>
+
+    <!-- <header>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <a class="navbar-brand" href="#">Carousel</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#">Disabled</a>
+                    </li>
+                </ul>
+                <form class="form-inline mt-2 mt-md-0">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>
+        </nav>
+    </header> -->
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <div class="container d-flex flex-column flex-md-row justify-content-between">
+
+
+
+            <a class="py-2" href="#" aria-label="Product">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="d-block mx-auto" role="img" viewBox="0 0 24 24"><title>Product</title><circle cx="12" cy="12" r="10"></circle>
+                    <path fill="#AB7C94" d="M14.31 8l5.74 9.94M9.69 8h11.48M7.38 12l5.74-9.94M9.69 16L3.95 6.06M14.31 16H2.83m13.79-4l-5.74 9.94"></path></svg>
+            </a>
+
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="padding-left: 25px;">
+                <li class="nav-item">
+                    {% if request.resolver_match.url_name == 'index' %}
+                    <a class="nav-link active" aria-current="page" href="{%url 'index'%}">Home</a>{%else%}
+                    <a class="nav-link " aria-current="page" href="{%url 'index'%}">Home</a>{% endif %}
+                </li>
+                <li class="nav-item">
+                    {% if request.resolver_match.url_name == 'selfindex' %}
+                    <a class="nav-link active" aria-current="page" href="{%url 'selfindex'%}">Your Work</a>{%else%}
+                    <a class="nav-link " aria-current="page" href="{%url 'selfindex'%}">Your Work</a>{% endif %}
+                </li>
+                <li class="nav-item">
+                    {% if request.resolver_match.url_name == 'allindex' %}
+                    <a class="nav-link active" aria-current="page" href="{%url 'allindex'%}">All Posts</a>{%else%}
+                    <a class="nav-link " aria-current="page" href="{%url 'allindex'%}">All Posts</a>{% endif %}
+                </li>
+
+            </ul>
+
+            {%if request.user.is_authenticated%}
+            <div class="d-flex flex-row-reverse bd-highlight">
+                <div class="p-2 bd-highlight">
+                    <a href="{%url 'profile_view'%}" style=" color: white; ">Profile</a>
+                </div>
+            </div>
+            <div class="d-flex flex-row-reverse bd-highlight">
+                <div class="p-2 bd-highlight">
+                    <a href="{%url 'logout'%}" style=" color: white; ">Logout</a>
+                </div>
+            </div>
+
+            {%else%}
+            <div class="d-flex flex-row-reverse bd-highlight">
+                <div class="p-2 bd-highlight">
+                    <a href="{%url 'login'%}" style=" color: white; ">Login</a>
+                </div>
+            </div>
+            {%endif%}
+        </div>
+    </nav>
+    <main role="main " style="padding-top:55px ">
+        {%if messages%} {% for message in messages%}
+        <div class="alert alert-{{message.tags}} ">{{message}}</div>
+        {%endfor%}{%endif%} {% block body %} {% endblock %}
+        <!-- FOOTER -->
+        <footer class="container ">
+
+
+            <p class="float-right "><a href="# ">Back to top</a></p>
+            <hr>
+            <p>© 2017-2018 Company, Inc. · <a href="# ">Privacy</a> · <a href="# ">Terms</a></p>
+
+        </footer>
+    </main>
+
+</body>
+<script src="{% static 'myAnimation/bootstrap/bootstrap.min.js' %} "></script>
+<script src="{% static 'myAnimation/splide.min.js' %} "></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="{% static 'myAnimation/Datatable/dataTables.min.js' %} "></script>
+
+
+{% block script %} {% endblock %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        new Splide('#image-slider', {
+            autoplay: true,
+            perPage: 1,
+            type: 'loop',
+            speed: 400,
+            interval: 2000,
+        }).mount();
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        new Splide('#Tab', {
+            perPage: 3,
+            perMove: 3,
+            autoplay: true,
+            // width: 5000,
+            speed: 1000,
+            interval: 2000,
+            cover: true,
+            type: 'loop',
+            // autoWidth: true,
+            lazyLoad: 'nearby',
+            arrows: false,
+            breakpoints: {
+                height: '8rem',
+                600: {
+                    perPage: 1,
+                }
+
+            }
+
+        }).mount();
+    });
+</script>
+
+
+
+</html>

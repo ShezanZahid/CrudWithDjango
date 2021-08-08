@@ -1,0 +1,55 @@
+{% extends 'myAnimations/base.html' %}{% block body %}
+<!-- START THE FEATURETTES -->
+
+<div class="container marketing ">
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="d-flex flex-row ">
+                <div class="p-2 ">
+                    <h2 style=" margin-bottom: 0;   text-decoration-line: underline;
+                    text-decoration-style: solid;">My Art Works</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="d-flex flex-row-reverse ">
+                <div class="p-2 ">
+                    <a href="{%url 'create'%}" type="button" class="btn btn-outline-primary " style="width: 400px; margin-bottom: 0;">Add New Content</a>
+                </div>
+            </div>
+        </div>
+    </div> {% for item in animation_list %}
+    <hr class="featurette-divider "> {%if item.id|divisibleby:"2 " == 0%}
+    <div class="row featurette ">
+        <div class="col-md-6 ">
+            <h2 class="featurette-heading "> {{item.animation_name}} </h2><span class="text-muted "><h6>{{item.animation_createdate}}</h6>.</span>
+            <p class="lead ">{{item.animation_details}}</p>
+            <h7 class="text-muted " style="font-style: italic;font-weight: bold;">-{{item.animation_user}}</h7>
+        </div>
+        <div class="col-md-6 ">
+            <img class="featurette-image img-fluid mx-auto " data-src="holder.js/500x500/auto " alt="500x500 " style="width: 500px; height: auto; border-radius: 8px; " src="{{item.animation_image.url}}" data-holder-rendered="true " data-holder-rendered="true ">
+        </div>
+
+    </div>
+
+    {%endif%} {%if item.id|divisibleby:"2 " != 0 %}
+    <div class="row featurette ">
+        <div class="col-md-6">
+            <img class="featurette-image img-fluid mx-auto " data-src="holder.js/500x500/auto " alt="500x500 " style="width: 500px; height: auto; border-radius: 8px;" src="{{item.animation_image.url}}" data-holder-rendered="true " data-holder-rendered="true ">
+        </div>
+        <div class="col-md-6">
+            <h2 class="featurette-heading "> {{item.animation_name}} </h2><span class="text-muted "><h6>{{item.animation_createdate}}</h6>.</span>
+            <p class="lead ">{{item.animation_details}}</p>
+            <h7 class="text-muted " style="font-style: italic;font-weight: bold;">-{{item.animation_user}}</h7>
+        </div>
+        {%endif%}
+        <div class="d-flex align-items-end" style="padding-top: 10px;">
+            <a href="{%url 'details' item.id%} ">View details »</a>
+        </div>{% endfor%}
+        <hr class="featurette-divider ">
+    </div>
+    <!-- /END THE FEATURETTES -->
+
+
+    {% endblock %}

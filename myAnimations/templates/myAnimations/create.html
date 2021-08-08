@@ -1,0 +1,47 @@
+{% extends 'myAnimations/base.html' %}{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="d-flex flex-row ">
+                <div class="p-2 ">
+                    <h4 style=" margin-bottom: 0;   text-decoration-line: underline;
+                    text-decoration-style: solid;">Add New Content</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="d-flex flex-row-reverse ">
+                <div class="p-2 ">
+                    <a href="{%url 'selfindex'%}" type="button" class="btn btn-primary btn-sm">Back</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <form method="POST" enctype="multipart/form-data">
+        {%csrf_token%}
+        <div class="row">
+            <div class="form-group">
+                <table> {{form.as_table}}
+                </table>
+            </div>
+        </div>
+        <!-- {%for field in form%}
+        <div class="row">
+            <div class="form-group">
+                <label or="id_{{field.name}}">{{field.label.title}}</label>
+                <input type="{{field.field.widget.input_type}}" class="form-control" name="{{ field.name }}" id="id_{{ field.name }}">
+            </div>
+        </div>
+
+        {%endfor%} -->
+        <div class="d-flex flex-row ">
+            <div class="p-2 ">
+                <button type="submit " class="btn btn-outline-primary btn-sm " style="width:400px ">ADD</button>
+            </div>
+        </div>
+
+
+
+    </form>{% endblock %}
+</div>

@@ -1,0 +1,89 @@
+{% extends 'myAnimations/base.html' %}{% load static %}{% block body %}
+<div class="container marketing ">
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="d-flex flex-row ">
+                <div class="p-2 ">
+                    <h4 style=" margin-bottom: 0;   text-decoration-line: underline;
+                    text-decoration-style: solid;">All Art Works</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <table id="table_id" class="table table-striped" style="padding-top: 10px;">
+        <thead class="alert-primary ">
+            <tr>
+                <th style="text-align:center; vertical-align:middle;">Id</th>
+                <th style="text-align:center; vertical-align:middle;">Name</th>
+                <th style="text-align:center; vertical-align:middle;">Details</th>
+                <th style="text-align:center; vertical-align:middle;">Rating</th>
+                <th style="text-align:center; vertical-align:middle;">Create Date</th>
+                <th style="text-align:center; vertical-align:middle;">Create by</th>
+                <th style="text-align:center; vertical-align:middle;">Image</th>
+                <th style="text-align:center; vertical-align:middle;">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for item in animation_list %}
+            <tr>
+                <td style="text-align:center; vertical-align:middle;">{{ item.id }}</td>
+                <td style="text-align:center; vertical-align:middle;">{{ item.animation_name }}</td>
+                <td style="text-align:center; vertical-align:middle;">{{ item.animation_details }}</td>
+                <td style="text-align:center; vertical-align:middle;">{{ item.animation_rating }}</td>
+                <td style="text-align:center; vertical-align:middle;">{{ item.animation_createdate }}</td>
+                <td style="text-align:center; vertical-align:middle;">
+                    - {{ item.animation_user}}
+                </td>
+                <td style="text-align:center; vertical-align:middle;"><img class="featurette-image img-fluid mx-auto " data-src="holder.js/500x500/auto " alt="500x500 " style="width: 200px; height: auto; border-radius: 8px; " src="{{item.animation_image.url}}" data-holder-rendered="true " data-holder-rendered="true "></td>
+                <td style="text-align:center; vertical-align:middle;"> <a class="btn btn-outline-primary btn-sm" href="{%url 'details' item.id%} ">details</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Details</th>
+                <th>Rating</th>
+                <th>Create Date</th>
+                <th>Create by</th>
+                <th>Image</th>
+                <th>Action</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+{% endblock %} {% block script %}
+<script>
+    $(document).ready(function() {
+        // Setup - add a text input to each footer cell
+        $('#table_id tfoot th').each(function() {
+            var title = $(this).text();
+            $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+        });
+
+        // DataTable
+        var table = $('#table_id').dataTable({
+            initComplete: function() {
+                // Apply the search
+                this.api().columns().every(function() {
+                    var that = this;
+
+                    $('input', this.footer()).on('keyup change clear', function() {
+                        if (that.search() !== this.value) {
+                            that
+                                .search(this.value)
+                                .draw();
+                        }
+                    });
+                });
+            }
+        });
+
+    });
+</script>
+
+{% endblock %}
