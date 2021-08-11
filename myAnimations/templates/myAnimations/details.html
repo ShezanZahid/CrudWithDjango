@@ -7,5 +7,7 @@
     {%if request.user.is_authenticated%} {%if request.user.profile == item.animation_user%}
     <a class="btn btn-primary" href="{%url 'update' item.id%}">Edit</a>
     <a class="btn btn-danger" href="{%url 'delete' item.id%}">Delete</a> {%endif%}{%endif%}
-
+    <br><br>{%if item.status == "Pending"%} {%if groupexists%}
+    <a class="btn btn-primary" href="{%url 'approve_post' item.id%}">Approve</a>
+    <a class="btn btn-danger" href="{%url 'reject_post' item.id%}">Reject</a>{%endif%}{%endif%}
 </div>{% endblock %}

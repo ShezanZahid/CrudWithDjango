@@ -24,7 +24,7 @@
 
     <div class="sidenav">
         <div class="login-main-text">
-            <h2>Hobbis and learnings
+            <h2>Hobbis and Arts
                 <br> Add Anything You Like</h2>
             <p>Login or register from here to access.</p>
         </div>
@@ -33,14 +33,17 @@
         {%if messages%} {% for message in messages%}
         <div class="alert alert-{{message.tags}} ">{{message}}</div>
         {%endfor%}{%endif%} {% block body %} {% endblock %}
-        <div class="col-md-6 col-sm-12">
+        <div class="col-md-5 col-sm-12">
             <div class="login-form">
                 <form method="POST">
                     {% csrf_token %}
                     <table>{{form.as_table}} </table>
+                    <div style="align-items: Right;">
 
-                    <button type="submit" class="btn btn-black" style="margin-top: 10px;">Login</button>
-                    <a type="button" class="btn btn-secondary" style="margin-top: 10px;" href="{%url 'register'%}">Register</a>
+                        <a href="{%url 'password_reset'%}">Forgot Your Password?</a><br>
+                        <button type="submit" class="btn btn-black" style="margin-top: 10px;">Login</button>
+                        <a type="button" class="btn btn-secondary" style="margin-top: 10px;" href="{%url 'register'%}">Register</a>
+                    </div>
                 </form>
             </div>
         </div>

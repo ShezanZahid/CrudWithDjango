@@ -28,11 +28,16 @@ urlpatterns = [
     path('register/',user_views.register,name='register'),
     path('profile/create',user_views.profile,name='profile'),
     path('profile/view',user_views.profileView,name='profile_view'),
-    path('login/',authentication_views.LoginView.as_view(template_name='users/login.html'),name='login'),
+    path('login/',authentication_views.LoginView.as_view(template_name='users/login.html',redirect_authenticated_user=True),name='login'),
     path('logout/',authentication_views.LogoutView.as_view(template_name='users/logout.html'),name='logout'),
     path('ajax_datatable/permissions/', myAnimation_views.PermissionAjaxDatatableView.as_view(), name="ajax_datatable_permissions"),
     path('', myAnimation_views.index),
     path('activate/<uidb64>/<token>', user_views.activate,name='activate'),
+
+    path('password_reset/',authentication_views.PasswordResetView.as_view(template_name='users/password_reset.html'),name='password_reset'),
+    path('password_reset/done/',authentication_views.PasswordResetDoneView.as_view(template_name='users/password_reset_done.html'),name='password_reset_done'),
+    path('reset/<uidb64>/<token>/',authentication_views.PasswordResetConfirmView.as_view(template_name='users/password_reset_confirm.html'),name='password_reset_confirm'),
+    path('reset/done/',authentication_views.PasswordResetCompleteView.as_view(template_name='users/password_reset_complete.html'),name='password_reset_complete'),
 
     
 ]

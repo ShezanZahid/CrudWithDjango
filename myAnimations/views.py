@@ -5,15 +5,20 @@ from .form import MyAnimationCreateForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from users.models import Profile
-
+from users.deocrators import allowed_users
+from django.urls import reverse
 
 
 # Create your views here.
 def index(request):
-    animation_list=MyAnimations.objects.all()
+    animation_list=MyAnimations.objects.filter(status="Approved")
+    usergroupList= request.user.groups.values_list('name',flat=True)
+    groupexists= usergroupList.filter(name='Admin').exists()
     context={
         'animation_list':animation_list,
+        'groupexists':groupexists,
     }
+  
     return render(request,'myAnimations/index.html',context)
 
 @login_required
@@ -32,10 +37,13 @@ def selfindex(request):
 
 def details(request,item_id):
     item=MyAnimations.objects.get(pk=item_id)
-
+    usergroupList= request.user.groups.values_list('name',flat=True)
+    groupexists= usergroupList.filter(name='Admin').exists()
     context={
         'item':item,
+        'groupexists':groupexists,
     }
+    
     return render(request,'myAnimations/details.html',context)
     
 @login_required    
@@ -81,11 +89,74 @@ def delete(request,id):
 
 @login_required
 def allindex(request):
-    animation_list=MyAnimations.objects.all()
+    usergroupList= request.user.groups.values_list('name',flat=True)
+    groupexists= usergroupList.filter(name='Admin').exists()
+    animation_list=MyAnimations.objects.filter(status="Approved")
+    context={
+        'animation_list':animation_list,
+        'groupexists':groupexists,
+    }
+    return render(request,'myAnimations/allindex.html',context)
+
+
+
+@login_required
+# @allowed_users(allowed_roles=['Customer'])
+@allowed_users(allowed_roles=['Admin'])
+def post_approval_list(request):
+    usergroupList= request.user.groups.values_list('name',flat=True)
+    groupexists= usergroupList.filter(name='Admin').exists()
+    animation_list=MyAnimations.objects.filter(status="Pending")
+    context={
+        'animation_list':animation_list,
+        'groupexists':groupexists,
+    }
+    return render(request,'myAnimations/allindex.html',context)
+
+@allowed_users(allowed_roles=['Admin'])
+def post_approved_list(request):
+    usergroupList= request.user.groups.values_list('name',flat=True)
+    groupexists= usergroupList.filter(name='Admin').exists()
+    animation_list=MyAnimations.objects.filter(status="Approved")
+    context={
+        'animation_list':animation_list,
+        'groupexists':groupexists,
+    }
+    return render(request,'myAnimations/allindex.html',context)
+
+@allowed_users(allowed_roles=['Admin'])
+def post_rejected_list(request):
+    animation_list=MyAnimations.objects.filter(status="Rejected")
     context={
         'animation_list':animation_list,
     }
-    return render(request,'myAnimations/allindex.html',context)
+    return render(request,'myAnimations/allindex.html',context)    
+@allowed_users(allowed_roles=['Admin'])
+def approve_post(request,id):
+    item=MyAnimations.objects.get(id=id)
+    item.status = 'Approved'
+    item.save()
+    context={
+        'item':item,
+    }
+    
+    return redirect('post_approval_list')
+
+@allowed_users(allowed_roles=['Admin'])
+def reject_post(request,id):
+    item=MyAnimations.objects.get(id=id)
+    item.status = 'Rejected'
+    print(item)
+    item.save()
+    context={
+        'item':item,
+    }
+    
+    return redirect('post_approval_list')
+
+
+
+
 
 from ajax_datatable.views import AjaxDatatableView
 from .models import MyAnimations

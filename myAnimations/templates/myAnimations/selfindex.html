@@ -26,7 +26,11 @@
             <h2 class="featurette-heading "> {{item.animation_name}} </h2><span class="text-muted "><h6>{{item.animation_createdate}}</h6>.</span>
             <p class="lead ">{{item.animation_details}}</p>
             <h7 class="text-muted " style="font-style: italic;font-weight: bold;">-{{item.animation_user}}</h7>
+            <p>
+                <h7 class="text-muted " style="font-style: italic;font-weight: bold;">Status:{{item.status}}</h7>
+            </p>
         </div>
+
         <div class="col-md-6 ">
             <img class="featurette-image img-fluid mx-auto " data-src="holder.js/500x500/auto " alt="500x500 " style="width: 500px; height: auto; border-radius: 8px; " src="{{item.animation_image.url}}" data-holder-rendered="true " data-holder-rendered="true ">
         </div>
@@ -42,6 +46,9 @@
             <h2 class="featurette-heading "> {{item.animation_name}} </h2><span class="text-muted "><h6>{{item.animation_createdate}}</h6>.</span>
             <p class="lead ">{{item.animation_details}}</p>
             <h7 class="text-muted " style="font-style: italic;font-weight: bold;">-{{item.animation_user}}</h7>
+            <p>
+                <h7 class="text-muted " style="font-style: italic;font-weight: bold;">Status:{{item.status}}</h7>
+            </p>
         </div>
         {%endif%}
         <div class="d-flex align-items-end" style="padding-top: 10px;">

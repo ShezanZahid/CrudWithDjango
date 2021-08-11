@@ -13,3 +13,5 @@ class MyAnimations(models.Model):
     animation_rating=models.FloatField(default=0)
     animation_createdate= models.DateField('date created at',blank=True,null=True)
     animation_image= models.ImageField(upload_to='images/',default="images/None/Noimg.jpg")
+    status_type=models.TextChoices('status_type','Approved Pending Rejected')
+    status=models.CharField(default="Pending",choices=status_type.choices, max_length=100)

@@ -129,7 +129,6 @@ STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = 'index'
 LOGIN_URL = 'login'
-
 LOGOUT_REDIRECT_URL ='login'
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
@@ -144,6 +143,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'shezan.1791@gmail.com'
-EMAIL_HOST_PASSWORD = 'dota2islife'
+EMAIL_HOST_USER = 'shezan.new@gmail.com'
+EMAIL_HOST_PASSWORD = '9141496SS'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+#User Session
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE = 1000000 # set just 10 seconds to test
+SESSION_SAVE_EVERY_REQUEST = True
