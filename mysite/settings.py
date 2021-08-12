@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'ajax_datatable',
     'users.apps.UsersConfig',
     'myAnimations.apps.MyanimationsConfig',
     'occupationType.apps.OccupationtypeConfig',
