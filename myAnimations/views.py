@@ -69,6 +69,7 @@ def update(request,id):
         form = MyAnimationCreateForm(request.POST,request.FILES,instance=item)
 
         if form.is_valid():
+            item.status = 'Pending'
             form.save()
             animation_name = form.cleaned_data.get('animation_name')
             messages.success(request,f'{animation_name} Content Successfully Created')
@@ -127,8 +128,12 @@ def post_approved_list(request):
 @allowed_users(allowed_roles=['Admin'])
 def post_rejected_list(request):
     animation_list=MyAnimations.objects.filter(status="Rejected")
+    usergroupList= request.user.groups.values_list('name',flat=True)
+    groupexists= usergroupList.filter(name='Admin').exists()
+   
     context={
         'animation_list':animation_list,
+        'groupexists':groupexists,
     }
     return render(request,'myAnimations/allindex.html',context)    
 @allowed_users(allowed_roles=['Admin'])

@@ -24,9 +24,10 @@
     <div class="row featurette ">
         <div class="col-md-6 ">
             <h2 class="featurette-heading "> {{item.animation_name}} </h2><span class="text-muted "><h6>{{item.animation_createdate}}</h6>.</span>
-            <p class="lead ">{{item.animation_details}}</p>
+            <p class="lead ">{{item.animation_details|truncatewords:20 }}</p>
             <h7 class="text-muted " style="font-style: italic;font-weight: bold;">-{{item.animation_user}}</h7>
             <p>
+                <br>
                 <h7 class="text-muted " style="font-style: italic;font-weight: bold;">Status:{{item.status}}</h7>
             </p>
         </div>
@@ -44,19 +45,19 @@
         </div>
         <div class="col-md-6">
             <h2 class="featurette-heading "> {{item.animation_name}} </h2><span class="text-muted "><h6>{{item.animation_createdate}}</h6>.</span>
-            <p class="lead ">{{item.animation_details}}</p>
+            <p class="lead ">{{item.animation_details|truncatewords:20 }}}</p>
             <h7 class="text-muted " style="font-style: italic;font-weight: bold;">-{{item.animation_user}}</h7>
             <p>
+                <br>
                 <h7 class="text-muted " style="font-style: italic;font-weight: bold;">Status:{{item.status}}</h7>
             </p>
-        </div>
-        {%endif%}
+            {%if item.status == "Rejected"%}
+            <a class="btn btn-outline-success" href="{%url 'update' item.id %}">Re-Submit</a>{%endif%}
+        </div> {%endif%}
         <div class="d-flex align-items-end" style="padding-top: 10px;">
             <a href="{%url 'details' item.id%} ">View details »</a>
         </div>{% endfor%}
         <hr class="featurette-divider ">
     </div>
     <!-- /END THE FEATURETTES -->
-
-
     {% endblock %}
