@@ -30,7 +30,7 @@ urlpatterns = [
     path('profile/view',user_views.profileView,name='profile_view'),
     path('login/',authentication_views.LoginView.as_view(template_name='users/login.html',redirect_authenticated_user=True),name='login'),
     path('logout/',authentication_views.LogoutView.as_view(template_name='users/logout.html'),name='logout'),
-    path('ajax_datatable/permissions/', myAnimation_views.PermissionAjaxDatatableView.as_view(), name="ajax_datatable_permissions"),
+    
     path('', myAnimation_views.index),
     path('activate/<uidb64>/<token>', user_views.activate,name='activate'),
 
