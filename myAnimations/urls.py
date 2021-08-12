@@ -1,6 +1,5 @@
 from django.urls import path
 from . import views
-from . import datatable
 
 urlpatterns=[
     path('',views.index,name='index'),
