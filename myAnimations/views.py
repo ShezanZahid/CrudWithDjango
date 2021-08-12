@@ -161,29 +161,3 @@ def reject_post(request,id):
 
 
 
-
-
-from ajax_datatable.views import AjaxDatatableView
-from .models import MyAnimations
-
-class PermissionAjaxDatatableView(AjaxDatatableView):
-
-    model = MyAnimations
-    title = 'MyAnimations'
-    initial_order = [["animation_name", "asc"], ]
-    length_menu = [[10, 20, 50, 100, -1], [10, 20, 50, 100, 'all']]
-    search_values_separator = '+'
-
-    column_defs = [
-        AjaxDatatableView.render_row_tools_column_def(),
-        {'name': 'id', 'visible': True, },
-        {'name': 'animation_name', 'visible': True, },
-        {'name': 'animation_details', 'visible': True, },
-        {'name': 'animation_rating',  'visible': True, },
-        {'name': 'animation_createdate',  'visible': True, },
-    ]
-
-
-
-# def index(request):
-#     return render(request, 'myAnimations/test.html', {})
