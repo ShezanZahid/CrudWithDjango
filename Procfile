@@ -1,3 +1,1 @@
-gunicorn mysite.wsgi
-
-rake jobs:work
+web: gunicorn dep:app
