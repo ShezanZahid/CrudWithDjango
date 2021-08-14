@@ -21,7 +21,7 @@
         </div>
         {%endif%}
 
-        <table id="table_id" class="table table-striped" style="padding-top: 10px; width: 10%  !important;">
+        <table id="table_id" class="table table-striped" style="padding: 10px;">
             <thead class="alert-primary ">
                 <tr>
                     <th style="text-align:center; vertical-align:middle;">Id</th>
@@ -72,7 +72,7 @@
             // Setup - add a text input to each footer cell
             $('#table_id tfoot th').each(function() {
                 var title = $(this).text();
-                $(this).html('<input type="text" placeholder="' + title + '" style="width: 130"/>');
+                $(this).html('<input type="text" placeholder="' + title + '" style="width: 160"/>');
             });
 
             // DataTable

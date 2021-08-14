@@ -89,7 +89,7 @@ def profile(request):
                 messages.success(request,f'Hi {user},Profile Updated Successfully')
                 return redirect('index')
         else:
-            form=ProfileForm()
+            form=ProfileForm(request.POST,request.FILES or None)
             form.fields["user"].queryset = User.objects.filter(id=request.user.id)
         return render(request,'users/profile_create.html',{'form':form})
 @allowed_users(allowed_roles=['Customer'])
@@ -105,12 +105,14 @@ def profileView(request):
             form=ProfileForm(request.POST,request.FILES)
             form.fields["user"].queryset = User.objects.filter(id=request.user.id)
             if form.is_valid():
+                print(form)
                 form.save()
                 user= form.cleaned_data.get('user')
                 messages.success(request,f'Hi {user},Profile Updated Successfully')
                 return redirect('index')
         else:
             form=ProfileForm()
+            print("Form")
             form.fields["user"].queryset = User.objects.filter(id=request.user.id)
         return render(request,'users/profile_create.html',{'form':form})
 

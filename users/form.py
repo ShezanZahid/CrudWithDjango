@@ -19,3 +19,4 @@ class ProfileForm(forms.ModelForm):
         widgets = {
             'address': forms.Textarea(attrs={'cols': 40, 'rows': 10},),
         }
+       

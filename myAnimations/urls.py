@@ -14,5 +14,6 @@ urlpatterns=[
     path('delete/<int:id>/',views.delete,name='delete'),
     path('approve_post/<int:id>',views.approve_post,name='approve_post'),
     path('reject_post/<int:id>',views.reject_post,name='reject_post'),
+    path('like/',views.like,name='like'),
     
 ]

@@ -1,12 +1,15 @@
 
-from django.shortcuts import redirect, render
-from .models import MyAnimations
-from .form import MyAnimationCreateForm
+from django.http.response import JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect, render
+from .models import Comment, MyAnimations
+from .form import CommentCreateForm, MyAnimationCreateForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from users.models import Profile
 from users.deocrators import allowed_users
 from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
@@ -36,15 +39,53 @@ def selfindex(request):
         
 
 def details(request,item_id):
-    item=MyAnimations.objects.get(pk=item_id)
+    item=get_object_or_404(MyAnimations,id=item_id)
+    comments = item.comment_post.filter(status=True)
     usergroupList= request.user.groups.values_list('name',flat=True)
     groupexists= usergroupList.filter(name='Admin').exists()
+    user_comment = None
+    print(request.user.post_user.values())
+    if request.method == 'POST':
+        comment_form = CommentCreateForm(request.POST)
+        if comment_form.is_valid:
+            user_comment = comment_form.save(commit=False)
+            user_comment.post = item
+            user_comment.user = request.user
+            user_comment.save()
+            return HttpResponseRedirect(reverse('details', args=(item.id,)))
+    else:
+        comment_form = CommentCreateForm()
     context={
         'item':item,
         'groupexists':groupexists,
+        'comments':user_comment,
+        'comments':comments,
+        'comment_form':comment_form,
     }
     
     return render(request,'myAnimations/details.html',context)
+
+
+@login_required
+@csrf_exempt
+def like(request):
+    if request.POST.get('action')=='post':
+        result=""
+        id=int(request.POST.get('postid'))
+        post=get_object_or_404(MyAnimations,id=id)
+        if post.likes.filter(id=request.user.id).exists():
+            post.likes.remove(request.user)
+            post.like_count -=1 
+            result=post.like_count
+            post.save()
+        else:
+            post.likes.add(request.user)
+            post.like_count +=1 
+            result=post.like_count
+            post.save()
+        
+        return JsonResponse({'result':result,})
+
     
 @login_required    
 def create(request):

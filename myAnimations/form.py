@@ -1,6 +1,6 @@
 from django import forms
 from django.db import models
-from .models import MyAnimations
+from .models import Comment, MyAnimations
 
 
 class MyAnimationCreateForm(forms.ModelForm):
@@ -13,4 +13,14 @@ class MyAnimationCreateForm(forms.ModelForm):
             'animation_details': forms.Textarea(attrs={'cols': 40, 'rows': 10},),
             'animation_name':forms.TextInput(attrs={'class': 'from-group'}),
             'animation_createdate': forms.DateInput(attrs={'type': 'date'})
+        }
+class CommentCreateForm(forms.ModelForm):
+    class Meta:
+        model=Comment
+        fields=['content']
+        widgets = {
+            'content': forms.Textarea(attrs={"class":"form-control",'cols': 100, 'rows': 7}),
+        } 
+        labels = {
+            'content': 'Comment',
         }

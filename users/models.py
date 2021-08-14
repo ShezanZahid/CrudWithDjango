@@ -12,7 +12,9 @@ class Profile(models.Model):
     hobbyType=models.TextChoices('hobbyType','3D_Art 3D_Rendering 3D_Modeling Painting')
     hobbies=models.CharField(default="Select_a_Hobby",choices=hobbyType.choices, max_length=100)
     image=models.ImageField(upload_to='images/profpic',default="images/None/Noimg.jpg")
-
+    
     def __str__(self):
         return self.user.username 
+
+
 

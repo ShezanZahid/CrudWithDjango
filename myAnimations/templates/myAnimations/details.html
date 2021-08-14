@@ -1,13 +1,90 @@
 {% extends 'myAnimations/base.html' %}{% block body %}
-<div class="container marketing " style="padding-top:50px;">
-    <img class="featurette-image img-fluid mx-aut" src="{{item.animation_image.url}} " style="object-fit: cover;  height: 400; width: 100%; border-radius: 8px;">
-    <h2 style="padding-top: 10px;">{{item.animation_name}}</h2>
-    <h6> {{item.animation_createdate}}</h6>
+<div class="container marketing" style="padding-top: 50px">
+    <img class="featurette-image img-fluid mx-aut" src="{{item.animation_image.url}} " style="object-fit: cover; height: 400; width: 100%; border-radius: 8px" />
+    <h2 style="padding-top: 10px">{{item.animation_name}}</h2>
+    <h6>{{item.animation_createdate}}</h6>
     <p>{{item.animation_details}}</p>
+
+    <!-- <span id="like_count"> {{item.like_count}}</span>
+    <button id="like_button" class="btn btn-outline-info btn-sm" value="{{item.id}} ">
+    Like
+  </button> -->
+
+    <div class="d-flex">
+        {% if request.user.is_authenticated %}
+        <div class="pr-2">
+            <span class="" id="like_count">{{item.like_count}}</span>
+            <button class="btn btn-link text-dark p-0 border-0 btn-outline-light" id="like_button" value="{{item.id}}">
+                <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-heart" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                    d="M8 2.748l-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+                </svg>
+            </button>
+        </div>
+        {% else %}
+        <div class="pr-2">
+            <span class="" id="like_count">{{item.like_count}}</span>
+            <a href="{% url 'register' %}" class="btn btn-link text-dark p-0 border-0 btn-outline-light" value="{{item.id}}">
+                <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-heart" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                    d="M8 2.748l-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+                </svg>
+            </a>
+        </div>
+        {% endif %}
+
+    </div>
     {%if request.user.is_authenticated%} {%if request.user.profile == item.animation_user%}
-    <a class="btn btn-primary" href="{%url 'update' item.id%}">Edit</a>
-    <a class="btn btn-danger" href="{%url 'delete' item.id%}">Delete</a> {%endif%}{%endif%}
-    <br><br>{%if item.status == "Pending"%} {%if groupexists%}
-    <a class="btn btn-primary" href="{%url 'approve_post' item.id%}">Approve</a>
-    <a class="btn btn-danger" href="{%url 'reject_post' item.id%}">Reject</a>{%endif%}{%endif%}
-</div>{% endblock %}
+    <br>
+    <a class="btn btn-primary btn-sm" href="{%url 'update' item.id%} ">Edit</a>
+    <a class="btn btn-danger btn-sm" href="{%url 'delete' item.id%} ">Delete</a> {%endif%}{%endif%} <br />
+    <br /> {%if item.status == "Pending"%} {%if groupexists%}
+    <a class="btn btn-outline-primary btn-sm" href="{%url 'approve_post' item.id%} ">Approve</a >
+    <a class="btn btn-outline-danger btn-sm" href="{%url 'reject_post' item.id%} ">Reject</a>{%endif%} {%endif%}
+    <hr />
+    <div class="col-md-12">
+        {%with comments.count as total_comments %}
+        <h4>{{total_comments}} comment{{total_comments|pluralize}}</h4>
+        {% endwith %} {% for comment in comments %}
+        <div class="card">
+            <div class="card-header">
+                Comment {{forloop.counter}} by <b>{{comment.user}}</b> on
+                <span class="text-muted">
+          <h6>{{comment.publish|date:"D d M Y h:i"|linebreaks}}</h6>
+        </span>
+            </div>
+            <div class="card-body">
+                <p class="card-text">{{comment.content}}</p>
+            </div>
+        </div>
+        <br />{%empty%}
+        <p>There is no comment</p>
+        {% endfor %} {%if request.user.is_authenticated%}
+        <form id="myForm" method="post">
+            {{comment_form.as_p}} {%csrf_token%}
+            <button class="btn-outline-secondary btn-sm" type="submit">Post</button>
+        </form>
+        {%else%}
+        <h4 style="color: chocolate;">Note:"Please Login/Register To Comment"</h4>{%endif%} </div>
+</div>
+{% endblock %} {% block script %}
+<script>
+    $(document).on("click", "#like_button", function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: '{% url "like" %}',
+            data: {
+                postid: $("#like_button").val(),
+                csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+                action: "post",
+            },
+            success: function(json) {
+                document.getElementById("like_count").innerHTML = json["result"];
+            },
+            error: function(xhr, errmsg, err) {},
+        });
+    });
+</script>
+{% endblock %}
